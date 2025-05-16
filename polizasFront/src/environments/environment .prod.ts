@@ -1,6 +1,6 @@
 
 export const environment = {
   production: true,
-  urlBase: 'https://localhost:5000',//5001
+  urlBase: 'http://policies-api:5000',//5001
 
 };
