@@ -1,0 +1,83 @@
+.change-password-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 64px);
+  padding: 24px;
+  background-color: #f8f9fa;
+  
+  .change-password-card {
+    width: 100%;
+    max-width: 480px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    
+    mat-card-content {
+      padding: 24px;
+      
+      h1 {
+        font-size: 24px;
+        font-weight: 600;
+        color: #343a40;
+        margin-bottom: 24px;
+        text-align: center;
+      }
+      
+      .back-button {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        z-index: 10;
+      }
+      
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        
+        .full-width {
+          width: 100%;
+        }
+        
+        .error-message {
+          margin-top: 8px;
+          margin-bottom: 8px;
+        }
+        
+        .change-password-button {
+          margin-top: 16px;
+          height: 48px;
+          font-size: 16px;
+          font-weight: 500;
+          border-radius: 24px;
+          transition: background-color 0.3s ease;
+          
+          &:disabled {
+            opacity: 0.7;
+          }
+        }
+      }
+    }
+  }
+  
+  @media (max-width: 576px) {
+    padding: 16px;
+    
+    .change-password-card {
+      mat-card-content {
+        padding: 16px;
+        
+        h1 {
+          font-size: 20px;
+          margin-bottom: 20px;
+        }
+        
+        .change-password-button {
+          height: 44px;
+          font-size: 15px;
+        }
+      }
+    }
+  }
+}

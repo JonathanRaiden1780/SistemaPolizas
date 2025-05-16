@@ -1,0 +1,70 @@
+<div class="policy-detail-container">
+  <div *ngIf="loading" class="loading">Cargando detalles de la póliza...</div>
+
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div *ngIf="policy && !loading" class="policy-detail">
+    <div class="page-header">
+      <h2>Detalles de Póliza #{{policy.policyNumber}}</h2>
+      <button *ngIf="canEdit()" (click)="onEdit()" class="btn-edit">Editar Póliza</button>
+    </div>
+
+    <div class="policy-info">
+      <div class="info-section">
+        <h3>Información General</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Tipo de Póliza:</label>
+            <span>{{policy.type}}</span>
+          </div>
+          <div class="info-item">
+            <label>Estado:</label>
+            <span [class]="'status-' + policy.status.toLowerCase()">{{policy.status}}</span>
+          </div>
+          <div class="info-item">
+            <label>Prima:</label>
+            <span>${{policy.amount | number:'1.2-2'}}</span>
+          </div>
+          <div class="info-item">
+            <label>Fecha de Inicio:</label>
+            <span>{{policy.startDate | date:'dd/MM/yyyy'}}</span>
+          </div>
+          <div class="info-item">
+            <label>Fecha de Fin:</label>
+            <span>{{policy.endDate | date:'dd/MM/yyyy'}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h3>Información del Cliente</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Nombre Completo:</label>
+            <span>{{policy.client.name}} {{policy.client.firstLastName}} {{policy.client.secondLastName}}</span>
+          </div>
+          <div class="info-item">
+            <label>Edad:</label>
+            <span>{{policy.client.age}} años</span>
+          </div>
+          <div class="info-item">
+            <label>País de Nacimiento:</label>
+            <span>{{policy.client.birthCountry}}</span>
+          </div>
+          <div class="info-item">
+            <label>Género:</label>
+            <span>{{policy.client.gender === 'M' ? 'Masculino' : 'Femenino'}}</span>
+          </div>
+          <div class="info-item">
+            <label>Correo Electrónico:</label>
+            <span>{{policy.client.email}}</span>
+          </div>
+          <div class="info-item">
+            <label>Teléfono:</label>
+            <span>{{policy.client.phone}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

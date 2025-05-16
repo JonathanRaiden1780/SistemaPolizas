@@ -1,0 +1,110 @@
+<form [formGroup]="policyForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="policyNumber">Número de Póliza</label>
+    <input id="policyNumber" type="text" formControlName="policyNumber" />
+  </div>
+
+  <div class="form-group">
+    <label for="type">Tipo de Póliza</label>
+    <select id="type" formControlName="type">
+      <option value="">Seleccione un tipo</option>
+      <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+    </select>
+    <div class="error-message" *ngIf="policyForm.get('type')?.invalid && (policyForm.get('type')?.dirty || policyForm.get('type')?.touched)">
+      <span *ngIf="policyForm.get('type')?.errors?.['required']">El tipo de póliza es requerido</span>
+    </div>
+  </div>
+
+  <div formGroupName="client">
+    <h3>Información del Cliente</h3>
+
+    <div class="form-group">
+      <label for="name">Nombre</label>
+      <input id="name" type="text" formControlName="name" />
+      <div class="error-message" *ngIf="policyForm.get('client.name')?.invalid && (policyForm.get('client.name')?.dirty || policyForm.get('client.name')?.touched)">
+        <span *ngIf="policyForm.get('client.name')?.errors?.['required']">El nombre es requerido</span>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="firstLastName">Apellido Paterno</label>
+      <input id="firstLastName" type="text" formControlName="firstLastName" />
+      <div class="error-message" *ngIf="policyForm.get('client.firstLastName')?.invalid && (policyForm.get('client.firstLastName')?.dirty || policyForm.get('client.firstLastName')?.touched)">
+        <span *ngIf="policyForm.get('client.firstLastName')?.errors?.['required']">El apellido paterno es requerido</span>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="secondLastName">Apellido Materno</label>
+      <input id="secondLastName" type="text" formControlName="secondLastName" />
+      <div class="error-message" *ngIf="policyForm.get('client.secondLastName')?.invalid && (policyForm.get('client.secondLastName')?.dirty || policyForm.get('client.secondLastName')?.touched)">
+        <span *ngIf="policyForm.get('client.secondLastName')?.errors?.['required']">El apellido materno es requerido</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="age">Edad</label>
+      <input id="age" type="number" formControlName="age" min="18" max="99" />
+      <div class="error-message" *ngIf="policyForm.get('client.age')?.invalid && (policyForm.get('client.age')?.dirty || policyForm.get('client.age')?.touched)">
+        <span *ngIf="policyForm.get('client.age')?.errors?.['required']">La edad es requerida</span>
+        <span *ngIf="policyForm.get('client.age')?.errors?.['min']">La edad mínima es 18 años</span>
+        <span *ngIf="policyForm.get('client.age')?.errors?.['max']">La edad máxima es 99 años</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="birthCountry">País de Nacimiento</label>
+      <input id="birthCountry" type="text" formControlName="birthCountry" />
+      <div class="error-message" *ngIf="policyForm.get('client.birthCountry')?.invalid && (policyForm.get('client.birthCountry')?.dirty || policyForm.get('client.birthCountry')?.touched)">
+        <span *ngIf="policyForm.get('client.birthCountry')?.errors?.['required']">El país de nacimiento es requerido</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="gender">Género</label>
+      <select id="gender" formControlName="gender" (change)="updatePremium()">
+        <option value="">Seleccione un género</option>
+        <option value="M">Masculino</option>
+        <option value="F">Femenino</option>
+      </select>
+      <div class="error-message" *ngIf="policyForm.get('client.gender')?.invalid && (policyForm.get('client.gender')?.dirty || policyForm.get('client.gender')?.touched)">
+        <span *ngIf="policyForm.get('client.gender')?.errors?.['required']">El género es requerido</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Correo Electrónico</label>
+      <input id="email" type="email" formControlName="email" />
+      <div class="error-message" *ngIf="policyForm.get('client.email')?.invalid && (policyForm.get('client.email')?.dirty || policyForm.get('client.email')?.touched)">
+        <span *ngIf="policyForm.get('client.email')?.errors?.['required']">El correo electrónico es requerido</span>
+        <span *ngIf="policyForm.get('client.email')?.errors?.['email']">El formato del correo electrónico es inválido</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Teléfono</label>
+      <input id="phone" type="tel" formControlName="phone" minlength="10" maxlength="10" (keypress)="onlyNumbers($event)" />
+      <div class="error-message" *ngIf="policyForm.get('client.phone')?.invalid && (policyForm.get('client.phone')?.dirty || policyForm.get('client.phone')?.touched)">
+        <span *ngIf="policyForm.get('client.phone')?.errors?.['required']">El teléfono es requerido</span>
+        <span *ngIf="policyForm.get('client.phone')?.errors?.['minlength'] || policyForm.get('client.phone')?.errors?.['maxlength']">El teléfono debe tener 10 dígitos</span>
+        <span *ngIf="policyForm.get('client.phone')?.errors?.['pattern']">El teléfono solo debe contener números</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="startDate">Fecha de Inicio</label>
+    <input id="startDate" type="date" formControlName="startDate" [min]="todayString" />
+    <div class="error-message" *ngIf="policyForm.get('startDate')?.invalid && (policyForm.get('startDate')?.dirty || policyForm.get('startDate')?.touched)">
+      <span *ngIf="policyForm.get('startDate')?.errors?.['required']">La fecha de inicio es requerida</span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="amount">Prima</label>
+    <input id="amount" type="number" formControlName="amount" readonly />
+    <div class="info-message">La prima se calcula automáticamente según el género</div>
+  </div>
+
+  <button type="submit" [disabled]="!policyForm.valid">Guardar</button>
+</form>

@@ -1,0 +1,73 @@
+<header class="header">
+  <div class="toolbar">
+    <div class="logo-container">
+      <h1 class="app-title">Sistema de Pólizas</h1>
+    </div>
+
+    <nav class="nav-links">
+      <a routerLink="/policies" routerLinkActive="active" class="nav-link"
+        >Pólizas</a
+      >
+      <a
+        *ngIf="canCreatePolicy()"
+        routerLink="/policies/new"
+        routerLinkActive="active"
+        class="nav-link"
+        >Nueva Póliza</a
+      >
+      <a
+        routerLink="/auth/change-password"
+        routerLinkActive="active"
+        class="nav-link"
+        >Cambiar Contraseña</a
+      >
+    </nav>
+
+    <div class="user-menu">
+      <span class="user-info">{{ userName }}</span>
+      <button class="menu-button" (click)="logout()">
+       <span 
+        class="toggle-icon" 
+        title="Cerrar Sesión">
+        <i class="fas fa-power-off"></i>
+      </span>
+      </button>
+    </div>
+
+    <button
+      class="mobile-menu-button"
+      [class.active]="mobileMenuOpen"
+      (click)="toggleMobileMenu()"
+    >
+      <span class="menu-icon"></span>
+    </button>
+  </div>
+
+  <nav class="mobile-nav" [class.open]="mobileMenuOpen">
+    <a
+      routerLink="/policies"
+      routerLinkActive="active"
+      class="nav-link"
+      (click)="closeMobileMenu()"
+      >Pólizas</a
+    >
+    <a
+      *ngIf="canCreatePolicy()"
+      routerLink="/policies/new"
+      routerLinkActive="active"
+      class="nav-link"
+      (click)="closeMobileMenu()"
+      >Nueva Póliza</a
+    >
+    <a
+      routerLink="/auth/change-password"
+      routerLinkActive="active"
+      class="nav-link"
+      (click)="closeMobileMenu()"
+      >Cambiar Contraseña</a
+    >
+    <a href="javascript:void(0)" class="nav-link" (click)="logout()"
+      >Cerrar Sesión</a
+    >
+  </nav>
+</header>

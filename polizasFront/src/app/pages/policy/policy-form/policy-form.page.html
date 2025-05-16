@@ -1,0 +1,13 @@
+<div class="policy-form-container">
+  <div class="page-header">
+    <h2>{{ isEditMode ? 'Editar' : 'Nueva' }} Póliza</h2>
+  </div>
+
+  <div *ngIf="loading" class="loading">{{ isEditMode ? 'Cargando póliza...' : 'Procesando...' }}</div>
+
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div class="form-wrapper" *ngIf="!loading || isEditMode">
+    <app-policy-form [policy]="policy" (submitForm)="onSubmit($event)"></app-policy-form>
+  </div>
+</div>

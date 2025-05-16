@@ -1,0 +1,6 @@
+<div class="modal-overlay" *ngIf="isVisible">
+    <div class="modal-content" [ngClass]="{'error': type === 'error', 'success': type === 'success', 'info': type === 'info'}">
+      <span class="close-button" (click)="close()">&times;</span>
+      <p>{{ message }}</p>
+    </div>
+  </div>

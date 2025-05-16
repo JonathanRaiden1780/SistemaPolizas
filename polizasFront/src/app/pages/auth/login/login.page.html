@@ -1,0 +1,35 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-content>
+      <div class="logo">
+        <img src="assets/images/logo.png" alt="American Fidelity Global Solutions Ltd." />
+      </div>
+
+      <h1>Bienvenido</h1>
+      <p class="subtitle">Ingresa tu correo y contraseña para acceder.</p>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Correo electrónico</mat-label>
+          <input matInput formControlName="username" type="email" />
+          <mat-icon matPrefix>mail</mat-icon>
+          <mat-error *ngIf="loginForm.get('username')?.hasError('required')"> El correo es requerido </mat-error>
+          <mat-error *ngIf="loginForm.get('username')?.hasError('email')"> Ingrese un correo válido </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Contraseña</mat-label>
+          <input matInput formControlName="password" [type]="showPassword ? 'text' : 'password'" />
+          <mat-icon matPrefix>lock</mat-icon>
+          <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
+            <mat-icon>{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required')"> La contraseña es requerida </mat-error>
+        </mat-form-field>
+        <mat-error *ngIf="error" class="error-message"> {{error}} </mat-error>
+
+        <button mat-raised-button color="primary" class="login-button" type="submit" [disabled]="!loginForm.valid">Iniciar sesión</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

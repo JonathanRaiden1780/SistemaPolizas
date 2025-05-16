@@ -1,0 +1,27 @@
+<div class="change-password-container">
+  <mat-card class="change-password-card">
+    <mat-card-content>
+      <button mat-icon-button (click)="goBack()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1>Cambiar Contraseña</h1>
+      <form [formGroup]="changePasswordForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Contraseña Actual</mat-label>
+          <input matInput formControlName="oldPassword" type="password" />
+          <mat-error *ngIf="changePasswordForm.get('oldPassword')?.hasError('required')">La contraseña actual es requerida</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Nueva Contraseña</mat-label>
+          <input matInput formControlName="newPassword" type="password" />
+          <mat-error *ngIf="changePasswordForm.get('newPassword')?.hasError('required')">La nueva contraseña es requerida</mat-error>
+        </mat-form-field>
+
+        <mat-error *ngIf="error" class="error-message">{{error}}</mat-error>
+
+        <button mat-raised-button color="primary" class="change-password-button" type="submit" [disabled]="!changePasswordForm.valid">Cambiar Contraseña</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

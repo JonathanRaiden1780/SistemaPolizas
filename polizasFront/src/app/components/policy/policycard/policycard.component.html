@@ -1,0 +1,31 @@
+<div class="policy-card">
+  <div class="card-header">
+    <h3 class="policy-number">Póliza #{{ policy.policyNumber }}</h3>
+    <span class="policy-status" [ngClass]="getStatusClass()">{{ policy.status }}</span>
+  </div>
+  
+  <div class="card-body">
+    <div class="info-row">
+      <span class="info-label">Cliente:</span>
+      <span class="info-value">{{ policy.client.name }} {{ policy.client.firstLastName }} {{ policy.client.secondLastName }}</span>
+    </div>
+    
+    <div class="info-row">
+      <span class="info-label">Tipo:</span>
+      <span class="info-value">{{ policy.type }}</span>
+    </div>
+    
+    <div class="info-row">
+      <span class="info-label">Prima:</span>
+      <span class="info-value">{{ policy.amount | currency }}</span>
+    </div>
+    
+  </div>
+  
+  <div class="card-actions">
+    <button class="view-btn" (click)="viewPolicy()">Ver Detalles</button>
+    <button *ngIf="canEdit()" class="edit-btn" (click)="editPolicy()">Editar</button>
+    <button *ngIf="canApprove()" class="approve-btn" (click)="approvePolicy()">Aprobar</button>
+    <button *ngIf="canReject()" class="reject-btn" (click)="rejectPolicy()">Rechazar</button>
+  </div>
+</div>

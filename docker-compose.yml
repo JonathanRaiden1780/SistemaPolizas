@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: policies-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=P0l1c13s@2025
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    restart: always
+    networks:
+      - policies-network
+
+  sqlcmd-runner:
+    build:
+      context: ./polizasBack
+      dockerfile: Dockerfile.sqlcmd
+    depends_on:
+      - sqlserver
+    entrypoint: >
+      /bin/bash -c "
+        echo 'Esperando a que SQL Server esté listo...' &&
+        sleep 25 &&
+        sqlcmd -S sqlserver -U SA -P P0l1c13s@2025 -i /scripts/queries.sql &&
+        sqlcmd -S sqlserver -U SA -P P0l1c13s@2025 -Q \"CREATE LOGIN policies_user WITH PASSWORD = 'P0l1c13s@2025'; ALTER SERVER ROLE sysadmin ADD MEMBER policies_user; CREATE USER policies_user FOR LOGIN policies_user;\"
+      "
+    networks:
+      - policies-network
+
+  api:
+    build:
+      context: ./polizasBack
+      dockerfile: Dockerfile
+    container_name: policies-api
+    ports:
+      - "44319:5000"
+    depends_on:
+      sqlserver:
+        condition: service_started
+      sqlcmd-runner:
+        condition: service_completed_successfully
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+      - ConnectionStrings__ConexionComunes=Server=sqlserver,1433;Database=PoliciesDB;User Id=policies_user;Password=P0l1c13s@2025;TrustServerCertificate=True;ConnectRetryCount=5;ConnectRetryInterval=10
+    restart: always
+    networks:
+      - policies-network
+
+  frontend:
+    build:
+      context: ./polizasFront
+      dockerfile: Dockerfile
+    container_name: policies-frontend
+    ports:
+      - "8101:8101"
+    depends_on:
+      - api
+    restart: always
+    networks:
+      - policies-network
+
+networks:
+  policies-network:
+    driver: bridge
+
+volumes:
+  sqlserver_data:
